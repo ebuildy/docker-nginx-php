@@ -16,9 +16,9 @@ RUN ln -sf /dev/stderr /var/log/nginx/error.log
 
 VOLUME ["/var/cache/nginx"]
 
-COPY ./nginx.conf /etc/nginx/nginx.conf
-COPY ./php.ini /etc/php5/fpm/php.ini
-COPY ./php-fpm-pool.conf /etc/php5/fpm/pool.d/www.conf
+COPY ./config/nginx.conf /etc/nginx/nginx.conf
+COPY ./config/php.ini /etc/php5/fpm/php.ini
+COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
 
 EXPOSE 80 443
 
