@@ -14,11 +14,7 @@ supervisor
 
 && rm -rf /var/lib/apt/lists/*
 
-RUN apt-get install -y python-pip && pip install supervisor-stdout
-
 RUN echo "" > /var/log/php5-fpm.log
-RUN echo "" > /var/log/nginx/access.log
-RUN echo "" > /var/log/nginx/error.log
 
 COPY ./config/nginx.conf /etc/nginx/nginx.conf
 COPY ./config/php.ini /etc/php5/fpm/php.ini
