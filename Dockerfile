@@ -1,6 +1,15 @@
-FROM ubuntu
+FROM debian:wheezy
 
 MAINTAINER ebuildy
+
+RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list
+RUN echo "deb-src http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list
+
+RUN echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
+RUN echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
+
+COPY ./config/dotdeb.gpg /opt/dotdeb.gpg
+RUN apt-key add /opt/dotdeb.gpg
 
 RUN apt-get update && apt-get install -y \
 nginx-light \
@@ -12,7 +21,7 @@ php5-mysql \
 php5-xdebug \
 supervisor
 
-&& rm -rf /var/lib/apt/lists/*
+RUN apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y &&  rm -rf /var/lib/apt/lists/*
 
 RUN echo "" > /var/log/php5-fpm.log
 
