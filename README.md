@@ -1,10 +1,15 @@
 # debian+nginx+php
 
-Yet another simple Docker image with Nginx + Php. Supervisord is used in foreground to supervisor Nginx and Php-fpm process. The base image is Debian with DotDeb repository setup.
+Yet another simple Docker image with Nginx + Php. The base image is the very minimal Phusion image, minimal Ubuntu base image modified for Docker-friendliness.
 
-## Uses
+## Use
 
-I strongly recommand to copy/paste configuration files from ./config folder. Especially for Nginx.
+There are 2 volumes:
+
+- www The files to serve (Php, static...)
+- config The Nginx and Php configuration
+
+Copy/paste configuration sample.
 
 ## Developers
 
@@ -12,17 +17,19 @@ Feel free to fork this project or send me PR/issues. You can easily change the P
 
 ## Softwares
 
+### OS
+
+- https://github.com/phusion/baseimage-docker
+- ubuntu:14.04
+
 ### Nginx
 
-Version => 1.6.2
-Configuration => /etc/nginx/nginx.conf (no includes)
+- Version 1.6.2
+- Configuration /etc/nginx/nginx.conf (no includes)
 
 ### Php5-fpm
 
-Version => 5.5
-Configuration => /etc/php5/fpm/php.ini and /etc/php5/fpm/php-fpm.ini (no FPM pool include)
+- Version 5.5
+- Configuration /etc/php5/fpm/php.ini 
+- Configuration /etc/php5/fpm/php-fpm.ini (no FPM pool include)
 
-### Supervisord
-
-Version => 3.0
-Configuration => /etc/supervisord/supervisord.conf
