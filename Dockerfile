@@ -1,35 +1,37 @@
-FROM debian:wheezy
+FROM phusion/baseimage:0.9.16
 
-MAINTAINER ebuildy
+RUN apt-get update --fix-missing
+RUN apt-get install -y \
+            nginx-light \
+            php5-curl \
+            php5-fpm \
+            php5-imagick \
+            php5-gd \
+            php5-mcrypt \
+            php5-memcached \
+            php5-mongo \
+            php5-mysql \
+            php5-xdebug
 
-RUN echo "deb http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list
-RUN echo "deb-src http://packages.dotdeb.org wheezy all" >> /etc/apt/sources.list
-
-RUN echo "deb http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
-RUN echo "deb-src http://packages.dotdeb.org wheezy-php55 all" >> /etc/apt/sources.list
-
-COPY ./config/dotdeb.gpg /opt/dotdeb.gpg
-RUN apt-key add /opt/dotdeb.gpg
-
-RUN apt-get update && apt-get install -y \
-nginx-light \
-php5-curl \
-php5-fpm \
-php5-memcached \
-php5-mongo \
-php5-mysql \
-php5-xdebug \
-supervisor
-
-RUN apt-get clean -y && apt-get autoclean -y && apt-get autoremove -y &&  rm -rf /var/lib/apt/lists/*
+RUN locale-gen en_US.UTF-8
+ENV LANG=en_US.UTF-8
 
 RUN echo "" > /var/log/php5-fpm.log
 
-COPY ./config/nginx.conf /etc/nginx/nginx.conf
-COPY ./config/php.ini /etc/php5/fpm/php.ini
-COPY ./config/php-fpm.conf /etc/php5/fpm/php-fpm.conf
-COPY ./config/supervisord.conf /etc/supervisor/supervisord.conf
+RUN mkdir -p        /var/www
+
+RUN mkdir               /etc/service/nginx
+ADD service/nginx.sh    /etc/service/nginx/run
+RUN chmod +x            /etc/service/nginx/run
+
+RUN mkdir               /etc/service/phpfpm
+ADD service/phpfpm.sh   /etc/service/phpfpm/run
+RUN chmod +x            /etc/service/phpfpm/run
 
 EXPOSE 80 443
 
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+VOLUME ["/var/config", "/var/www"]
+
+CMD ["/sbin/my_init"]
+
+RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
