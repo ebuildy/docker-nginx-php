@@ -6,8 +6,8 @@ Yet another simple Docker image with Nginx + Php. The base image is the very min
 
 There are 2 volumes:
 
-- www The files to serve (Php, static...)
-- config The Nginx and Php configuration
+- ````/var/www```` The files to serve (Php, static...)
+- ````/var/config```` The Nginx and Php configuration
 
 Copy/paste configuration sample.
 
