@@ -1,1 +1,0 @@
-docker run -p 8080:80 -P -v ~/www/ebuildy-docker-nginx-php/test:/var/www:ro --rm nginx-php
