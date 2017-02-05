@@ -1,35 +1,32 @@
 # debian+nginx+php
 
-Yet another simple Docker image with Nginx + Php. The base image is the very minimal Phusion image, minimal Ubuntu base image modified for Docker-friendliness.
+Yet another simple Docker image with Nginx + Php.
 
 ## Use
 
-There are 2 volumes:
+By default => /var/www is web root folder.
 
-- ````/var/www```` The files to serve (Php, static...)
-- ````/var/config```` The Nginx and Php configuration
-
-Copy/paste configuration sample.
-
-## Developers
-
-Feel free to fork this project or send me PR/issues. You can easily change the Php version. Use ./bin/build and ./bin/test.
+``docker run -p 8080:80 ebuildy/nginx-php``
+``docker run -p 8080:80 -v $(pwd):/var/www ebuildy/nginx-php``
 
 ## Softwares
 
 ### OS
 
-- https://github.com/phusion/baseimage-docker
-- ubuntu:14.04
+- debian:8
 
 ### Nginx
 
-- Version 1.6.2
-- Configuration /etc/nginx/nginx.conf (no includes)
+- Version 1.10.*
+- Configuration /etc/services.d/nginx/nginx.conf
 
 ### Php5-fpm
 
-- Version 5.5
-- Configuration /etc/php5/fpm/php.ini 
-- Configuration /etc/php5/fpm/php-fpm.ini (no FPM pool include)
+- Version 7
+- Configuration /etc/services.d/php/php.ini
+- Configuration /etc/services.d/php/php-fpm.conf
+- Socket /var/run/php-fpm.sock
 
+## Developers
+
+Feel free to fork this project or send me PR/issues.
